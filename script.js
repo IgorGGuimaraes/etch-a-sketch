@@ -47,6 +47,7 @@ function styleDiv(){
         subDivsInCurrentDiv.forEach((sn) => {
             sn.style.width = '24px';
             sn.style.height = '24px';
+            sn.style.border = 'solid, 1.5px, darkblue'
         })
 
         if (index % 2 !== 0){
