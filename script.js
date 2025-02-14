@@ -1,105 +1,60 @@
-let container = document.querySelector('#container');
-const btn = document.querySelector('#btn');
+const sketchContainer = document.querySelector('#sketchContainer');
 
-for( let i = 0; i < 16; i++) {
-    const newDiv = document.createElement('div');
-    newDiv.setAttribute('class', `content divOnica ${i + 1}`);
-    container.appendChild(newDiv);
-
-    for (let a = 0; a < 16; a++){
-        const subDiv = document.createElement('div');
-        subDiv.setAttribute('class', `content subDivOnica ${i + 1} ${a + 1}`);
-        newDiv.appendChild(subDiv);
+function createDiv (number) {
+    for (i = 0; i < number*number; i++) {
+        let newDiv = document.createElement('div');
+        newDiv.setAttribute('class', `newDiv ${i + 1}`);
+        let num = 580 / number;
+        newDiv.style.width = `${num.toString()}px`
+        newDiv.style.height = `${num.toString()}px`
+        newDiv.style.backgroundColor = 'white';
+        sketchContainer.appendChild(newDiv);
     }
 }
 
-document.body.style.boxSizing = 'border-box';
+createDiv(16);
 
-let content = document.querySelectorAll('.content')
-let divOnicas = document.querySelectorAll('.divOnica');
-const subDivOnicas = document.querySelectorAll('.subDivOnica');
-
-//subDivOnicas.forEach((s) => {
-    //if (index % 2 !== 0) {
-       // s.style.background = 'lightblue';
-       // s.addEventListener('mouseleave', () => {
-       //     s.style.background = 'lightblue';
-       // })
-   // } else {
-     //   s.style.background = 'blue';
-      //  s.addEventListener('mouseleave', () => {
-      //      s.style.background = 'blue';
-      //  })
-   // }
-    //s.style.width = '24px';
-  //  s.style.height = '24px';
-//});
-
-function styleDiv(){
-    
-    divOnicas = document.querySelectorAll('.divOnica')
-    divOnicas.forEach((d, index) => {
-        d.style.display = 'flex';
-        d.style.width = 'fit-content';
-
-        const subDivsInCurrentDiv = d.querySelectorAll('.subDivOnica');
-
-        subDivsInCurrentDiv.forEach((sn) => {
-            sn.style.width = '24px';
-            sn.style.height = '24px';
-            sn.style.border = 'solid, 1.5px, darkblue'
+function colorDiv (){
+    let Divs = document.querySelectorAll('.newDiv');
+    Divs.forEach((d) => {
+        let i = 0.1
+        d.addEventListener('mouseenter', () => {
+            d.style.backgroundColor = 'black';
+            
+            if (i < 1) {
+                i += 0.1
+            }
+            d.style.opacity = `${i.toString()}`
         })
-
-        if (index % 2 !== 0){
-            subDivsInCurrentDiv.forEach((s) => {
-                s.style.background = 'blue';
-                s.addEventListener('mouseenter', () => {
-                    s.style.background = 'purple';
-                })
-                s.addEventListener('mouseleave', () => {
-                    s.style.background = 'blue';
-                })
-            })
-        } else {
-            subDivsInCurrentDiv.forEach((s) => {
-                s.style.background = 'lightblue';
-                s.addEventListener('mouseenter', () => {
-                    s.style.background = 'pink';
-                })
-                s.addEventListener('mouseleave', () => {
-                    s.style.background = 'lightblue';
-                })
-            }) 
-        }
-        
     })
 }
 
-styleDiv();
+colorDiv();
 
-
-function clickBtn () {
-    content = document.querySelectorAll('.content');
-    content.forEach((e) => {
-        e.remove();
+function resetDivs (){
+    let Divs = document.querySelectorAll('.newDiv');
+    Divs.forEach((div) => {
+        div.remove()
     })
-    let inputNumber = parseInt(prompt('How many squares per line?', '16'));
-    if (inputNumber > 100 || isNaN(inputNumber)) {
-        alert('Please enter a number up to 100')
-        return clickBtn();
-     } else {
-        for (let i = 0; i < inputNumber; i++){
-            const newDiv = document.createElement('div');
-            newDiv.setAttribute('class', `content divOnica ${i + 1}`);
-            container.appendChild(newDiv);
+    let input = parseInt(prompt('Choose the resolution up to 100', '32'));
+    if(input < 1 || input > 100) {
+        alert('Choose a value from 1 to 100');
+        return resetDivs();
+    } else {
+        createDiv(input);
+        colorDiv()
+    }
+}
 
-            for (let a = 0; a < inputNumber; a++){
-                const subDiv = document.createElement('div');
-                subDiv.setAttribute ('class', `content subDivOnica ${i + 1} ${a + 1}`);
-                newDiv.appendChild(subDiv);
-            }
-        }
-        styleDiv();
-}}
+const btnGrid = document.querySelector('#btnGrid');
+btnGrid.addEventListener('click', resetDivs);
 
-btn.addEventListener('click', clickBtn);
+function clearDivs (){
+    Divs = document.querySelectorAll('.newDiv');
+    Divs.forEach((d) => {
+        d.style.opacity = '0';
+    })
+}
+
+const btnClear = document.querySelector('#btnClear');
+btnClear.addEventListener('click', clearDivs);
