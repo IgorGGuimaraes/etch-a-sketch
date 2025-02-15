@@ -54,7 +54,31 @@ function clearDivs (){
     Divs.forEach((d) => {
         d.style.opacity = '0';
     })
+    colorDiv();
 }
 
 const btnClear = document.querySelector('#btnClear');
 btnClear.addEventListener('click', clearDivs);
+
+
+
+function randomColor() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+function rainbowMode(){
+    let divs = document.querySelectorAll('.newDiv');
+    divs.forEach((d) => {
+        d.style.backgroundColor = '';
+        d.addEventListener('mouseenter', () => {
+            d.style.backgroundColor = randomColor();
+            d.style.opacity = '1';
+        })
+    })
+}
+
+const btnRainbow = document.querySelector('#btnRainbow');
+btnRainbow.addEventListener('click', rainbowMode);
